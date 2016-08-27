@@ -1,0 +1,42 @@
+.navbar {
+  border-radius: 0px;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 700;
+  background-color: white;
+  margin-bottom: 0px;
+}
+
+.navbar-default .navbar-nav>.active>a {
+  background-color: white;
+  border-bottom: 3px solid #800008;
+  color: #800008;
+}
+
+.navbar-default .navbar-collapse, .navbar-default .navbar-form {
+  text-align: center;
+}
+
+.navbar-default .navbar-nav>li>a {
+  color: #800008;
+  padding: 10px;
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+
+.brand {
+  margin-right: 10px;
+  border-right: 1px solid #800008;
+}
+
+.brand > img {
+  width: 185px;
+  margin: 10px;
+}
+
+.appointment-btn {
+  color: #800008;
+  font-weight: 700;
+  margin: 20px;
+  border-radius: 0px;
+  border: 1px solid #800008;
+}
