@@ -13,10 +13,17 @@ function invoiceController( $scope ) {
   iCtrl.invoice.partsTotal = '0.00'
   iCtrl.invoice.subtotal = '159.75'
   iCtrl.invoice.taxPercent = '0.065'
-  iCtrl.laborTaxTotal = '9.75'
   iCtrl.partsTaxTotal = '0.00'
-  iCtrl.invoice.shopSupplies = '0.00'
+  iCtrl.invoice.shopSupplies = '8.25'
+  iCtrl.invoice.shopSuppliesPercent = '0.055'
   iCtrl.invoice.hazardousMaterials = '0.00'
+  iCtrl.invoice.date = new Date();
+
+  iCtrl.disclaimer = '"Any warranties on the products sold hereby are those made by the manufacturer.' +
+    ' The seller, RACALLS AUTOTECHS LLC, hereby expressly disclaims all warranties, either express or implied,' +
+    ' including any implied warranty of merchantability or fitness for a particular purpose, and neither assumes' +
+    ' nor authorizes any other person to assume for it any liability in connection with the sale of said products."' +
+    ' NOTICE: You are entitled to inspect or receive any components, parts, or accessories replaced or removed by the shop.'
 
   iCtrl.invoice.company = {
     name : 'Racalls Autotechs',
@@ -93,7 +100,7 @@ function invoiceController( $scope ) {
     }
     iCtrl.getTotalLabor();
     iCtrl.getTotalParts();
-    iCtrl.getLaborTax();
+    iCtrl.getTotalShopSupplies();
     iCtrl.getPartsTax();
     iCtrl.getSubtotal();
     return true;
@@ -113,7 +120,8 @@ function invoiceController( $scope ) {
   }
 
   iCtrl.removeLine = function( line ) {
-    iCtrl.invoice.lineItems.splice(iCtrl.invoice.lineItems.indexOf(line),1)
+    iCtrl.invoice.lineItems.splice(iCtrl.invoice.lineItems.indexOf(line),1);
+    iCtrl.calcTotal(null,null,'misc');
   }
 
   iCtrl.newNote = function( ) {
@@ -153,17 +161,18 @@ function invoiceController( $scope ) {
     }
   }
 
-  iCtrl.getLaborTax = function( ) {
+  iCtrl.getTotalShopSupplies = function( ) {
     let total = 0;
+    let totalLabor = 0;
     for ( let i = 0; i < iCtrl.invoice.lineItems.length; i++ ) {
       if (iCtrl.invoice.lineItems[i].type === "Labor") {
-        total += iCtrl.invoice.lineItems[i].lineTotal;
+        totalLabor += iCtrl.invoice.lineItems[i].lineTotal;
       }
     }
-    console.log(total, parseFloat(iCtrl.invoice.taxPercent))
+    total = totalLabor * iCtrl.invoice.shopSuppliesPercent;
     if ( total === 0 ) {
-      iCtrl.invoice.laborTaxTotal = '0.00'
-    } else { iCtrl.invoice.laborTaxTotal = total * parseFloat(iCtrl.invoice.taxPercent); }
+      return '-';
+    } else iCtrl.invoice.shopSupplies = total;
   }
 
   iCtrl.getPartsTax = function( ) {
@@ -180,7 +189,11 @@ function invoiceController( $scope ) {
 
   iCtrl.getSubtotal = function( ) {
     console.log(iCtrl.invoice)
-    iCtrl.invoice.subtotal = parseFloat(iCtrl.invoice.partsTotal) + parseFloat(iCtrl.invoice.laborTotal) + parseFloat(iCtrl.invoice.laborTaxTotal) + parseFloat(iCtrl.invoice.partsTaxTotal) + parseFloat(iCtrl.invoice.shopSupplies) + parseFloat(iCtrl.invoice.hazardousMaterials);
+    iCtrl.invoice.subtotal = parseFloat(iCtrl.invoice.partsTotal) + parseFloat(iCtrl.invoice.laborTotal) + parseFloat(iCtrl.invoice.partsTaxTotal) + parseFloat(iCtrl.invoice.shopSupplies) + parseFloat(iCtrl.invoice.hazardousMaterials);
+  }
+
+  iCtrl.printInvoice = function() {
+    window.print();
   }
 
 }

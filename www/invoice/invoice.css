@@ -26,6 +26,10 @@
   min-width: 50px;
 }
 
+.customer-info {
+  text-align: center;
+}
+
 .customer-info>div {
   text-align: center;
   padding-left: 10px;
@@ -35,13 +39,17 @@
 }
 
 .invoice-company {
-  text-align: right;
+  text-align: center;
   font-family: 'Roboto', sans-serif;
 }
 
-.invoice-company img {
+.invoice-company img:first-of-type {
   width: 200px;
   margin-top: 120px;
+}
+
+.invoice-company img:last-of-type {
+  width: 100px;
 }
 
 .invoice-company>h5:nth-child(4),
@@ -76,6 +84,27 @@
   margin-bottom: 15px;
 }
 
+.print-btn {
+  margin: 10px;
+  border-radius: 0px;
+}
+
+.customer-signature h4 {
+  display: inline-block;
+  font-family: 'Roboto', sans-serif;
+}
+
+.customer-signature h4:first-of-type {
+  margin-top: 50px;
+}
+
+.customer-signature p {
+  display: inline-block;
+  border-bottom: 1px solid black;
+  width: 100%;
+  font-family: 'Roboto', sans-serif;
+}
+
 @media print {
 
   .customer-info p {
@@ -84,6 +113,14 @@
 
   .invoice-meta p {
     border: none;
+  }
+
+  .invoice-company img:last-of-type {
+    margin-bottom: 15px;
+  }
+
+  .customer-signature h4:first-of-type {
+    margin-top: 100px;
   }
 
   .no-print {

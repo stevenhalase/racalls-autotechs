@@ -1,11 +1,14 @@
 <div class="invoice-wrapper">
   <div class="container">
+    <button class="print-btn btn btn-default no-print" ng-click="iCtrl.printInvoice()">PRINT INVOICE</button>
+    <button class="print-btn btn btn-default no-print" ng-click="iCtrl.printInvoice()">SAVE INVOICE</button>
+
     <div class="row">
       <div class="invoice-header col-md-12">
         <h3 class="invoice-head">INVOICE</h3>
-        <div class="invoice-meta col-xs-4">
+        <div class="invoice-meta col-xs-6">
           <h4>Invoice # </h4> <p editable-text="iCtrl.invoice.number">{{ iCtrl.invoice.number || "empty" }}</p><br/>
-          <h4>Date: </h4> <p editable-datetime-local="iCtrl.invoice.date">{{ (iCtrl.invoice.date | date: "yyyy-MM-dd HH:mm:ss a") || 'empty' }}</p>
+          <h4>Date: </h4> <p editable-datetime-local="iCtrl.invoice.date">{{ (iCtrl.invoice.date | date: "yyyy-MM-dd HH:mm a") }}</p>
           <div class="customer-info">
             <h5>Customer Information</h5>
             <div class="well">
@@ -15,12 +18,13 @@
             </div>
           </div>
         </div>
-        <div class="invoice-company col-xs-8">
+        <div class="invoice-company col-xs-6">
           <img ng-src="{{iCtrl.invoice.company.logo}}">
           <h3>{{iCtrl.invoice.company.name}}</h3>
           <h5>{{iCtrl.invoice.company.address.street}}</h5>
           <h5>{{iCtrl.invoice.company.address.city}}</h5>, <h5>{{iCtrl.invoice.company.address.state}}</h5> <h5>{{iCtrl.invoice.company.address.zip}}</h5>
           <h4>{{iCtrl.invoice.company.phone}}</h4>
+          <img src="../images/ase.png">
         </div>
       </div>
     </div>
@@ -36,7 +40,7 @@
         	<tbody>
         		<tr ng-repeat="line in iCtrl.invoice.lineItems">
         			<td editable-text="line.type">{{ line.type || '-' }}</td>
-              <td editable-text="line.description">{{ line.description || '-' }}</td>
+              <td e-rows="7" e-cols="50" editable-textarea="line.description">{{ line.description || '-' }}</td>
               <td editable-text="line.partNumber">{{ line.partNumber || '-' }}</td>
               <td editable-text="line.quantity" onbeforesave="iCtrl.calcTotal($data, line, 'quantity')">{{ (line.quantity | number:2) || '-' }}</td>
               <td editable-text="line.price" onbeforesave="iCtrl.calcTotal($data, line, 'price')">{{ (line.price | number:2) || '-' }}</td>
@@ -63,7 +67,7 @@
         	<tbody>
         		<tr ng-repeat="note in iCtrl.invoice.notes">
         			<td editable-text="note.title">{{ note.title || 'Some title' }}</td>
-              <td editable-text="note.description"><i>{{ note.description || 'Description of Note' }}</i></td>
+              <td e-rows="7" e-cols="50" editable-textarea="note.description"><i>{{ note.description || 'Description of Note' }}</i></td>
               <td class="no-print"><a href="" ng-click="iCtrl.removeNote(note)"><i class="remove-line-btn material-icons">remove_circle</i></a></td>
             </tr>
         	</tbody>
@@ -79,16 +83,13 @@
             <tr>
               <td>Parts</td><td>{{ (iCtrl.invoice.partsTotal | number:2) || '-'}}</td>
             <tr>
-              <td>Shop Supplies</td><td editable-text="iCtrl.invoice.shopSupplies" onbeforesave="iCtrl.calcTotal($data, line, 'misc')">{{ (iCtrl.invoice.shopSupplies | number:2) || '-' }}</td>
+              <td>Shop Supplies <span class="tax-percent no-print" editable-text="iCtrl.invoice.shopSuppliesPercent" onbeforesave="iCtrl.calcTotal($data, line, 'misc')">{{ (iCtrl.invoice.shopSuppliesPercent | number:3) || '5.5' }}</span></td><td>{{ (iCtrl.invoice.shopSupplies | number:2) || '-' }}</td>
             </tr>
             <tr>
               <td>Hazardous Materials</td><td editable-text="iCtrl.invoice.hazardousMaterials" onbeforesave="iCtrl.calcTotal($data, line, 'misc')">{{ (iCtrl.invoice.hazardousMaterials | number:2) || '-' }}</td>
             </tr>
             <tr>
-              <td>Labor Taxes <span class="tax-percent" editable-text="iCtrl.invoice.taxPercent" onbeforesave="iCtrl.calcTotal($data, line, 'misc')">{{ (iCtrl.invoice.taxPercent | number:3) || '6.5' }}</span></td><td>{{ (iCtrl.invoice.laborTaxTotal | number:2) || '9.75' }}</td>
-            </tr>
-            <tr>
-              <td>Parts Taxes <span class="tax-percent" editable-text="iCtrl.invoice.taxPercent" onbeforesave="iCtrl.calcTotal($data, line, 'misc')">{{ (iCtrl.invoice.taxPercent | number:3) || '6.5' }}</span></td><td>{{ (iCtrl.invoice.partsTaxTotal | number:2) || '0.00' }}</td>
+              <td>Parts Taxes <span class="tax-percent no-print" editable-text="iCtrl.invoice.taxPercent" onbeforesave="iCtrl.calcTotal($data, line, 'misc')">{{ (iCtrl.invoice.taxPercent | number:3) || '6.5' }}</span></td><td>{{ (iCtrl.invoice.partsTaxTotal | number:2) || '0.00' }}</td>
             </tr>
         	</tbody>
         </table>
@@ -102,6 +103,21 @@
             </tr>
         	</tbody>
         </table>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-6">
+        <table class="table table-hover table-striped table-bordered table-responsive">
+        	<tbody>
+        		<tr>
+        			<td class="disclaimer" e-rows="7" e-cols="50" editable-textarea="iCtrl.disclaimer"><i>{{ iCtrl.disclaimer }}</i></b></td>
+            </tr>
+        	</tbody>
+        </table>
+      </div>
+      <div class="customer-signature col-xs-6">
+        <h4>Signature</h4><p></p><br/>
+        <h4>Date</h4><p></p>
       </div>
     </div>
   </div>
