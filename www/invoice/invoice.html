@@ -1,0 +1,108 @@
+<div class="invoice-wrapper">
+  <div class="container">
+    <div class="row">
+      <div class="invoice-header col-md-12">
+        <h3 class="invoice-head">INVOICE</h3>
+        <div class="invoice-meta col-xs-4">
+          <h4>Invoice # </h4> <p editable-text="iCtrl.invoice.number">{{ iCtrl.invoice.number || "empty" }}</p><br/>
+          <h4>Date: </h4> <p editable-datetime-local="iCtrl.invoice.date">{{ (iCtrl.invoice.date | date: "yyyy-MM-dd HH:mm:ss a") || 'empty' }}</p>
+          <div class="customer-info">
+            <h5>Customer Information</h5>
+            <div class="well">
+              <p editable-text="iCtrl.invoice.customer.name">{{ iCtrl.invoice.customer.name || 'Customer Name' }}</p>
+              <p editable-text="iCtrl.invoice.customer.address">{{ iCtrl.invoice.customer.address || 'Customer Address' }}</p>
+              <p editable-text="iCtrl.invoice.customer.phone">{{ iCtrl.invoice.customer.phone || 'Customer Phone' }}</p>
+            </div>
+          </div>
+        </div>
+        <div class="invoice-company col-xs-8">
+          <img ng-src="{{iCtrl.invoice.company.logo}}">
+          <h3>{{iCtrl.invoice.company.name}}</h3>
+          <h5>{{iCtrl.invoice.company.address.street}}</h5>
+          <h5>{{iCtrl.invoice.company.address.city}}</h5>, <h5>{{iCtrl.invoice.company.address.state}}</h5> <h5>{{iCtrl.invoice.company.address.zip}}</h5>
+          <h4>{{iCtrl.invoice.company.phone}}</h4>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <table class="table table-hover table-striped table-bordered table-responsive">
+        	<thead>
+        		<tr>
+        			<th ng-repeat="header in iCtrl.invoice.headers">{{ header.title }}</th>
+              <th class="no-print"></th>
+        		</tr>
+        	</thead>
+        	<tbody>
+        		<tr ng-repeat="line in iCtrl.invoice.lineItems">
+        			<td editable-text="line.type">{{ line.type || '-' }}</td>
+              <td editable-text="line.description">{{ line.description || '-' }}</td>
+              <td editable-text="line.partNumber">{{ line.partNumber || '-' }}</td>
+              <td editable-text="line.quantity" onbeforesave="iCtrl.calcTotal($data, line, 'quantity')">{{ (line.quantity | number:2) || '-' }}</td>
+              <td editable-text="line.price" onbeforesave="iCtrl.calcTotal($data, line, 'price')">{{ (line.price | number:2) || '-' }}</td>
+              <td editable-text="line.rate" onbeforesave="iCtrl.calcTotal($data, line, 'rate')">{{ (line.rate | number:2) || '-' }}</td>
+              <td editable-text="line.hours" onbeforesave="iCtrl.calcTotal($data, line, 'hours')">{{ (line.hours | number:2) || '-' }}</td>
+              <td>{{ (line.lineTotal | number:2) || '-' }}</td>
+              <td class="no-print"><a href="" ng-click="iCtrl.removeLine(line)"><i class="remove-line-btn material-icons">remove_circle</i></a></td>
+        		</tr>
+        	</tbody>
+          <a class="no-print" href="" ng-click="iCtrl.newLine()"><i class="new-line-btn material-icons info">add_box</i></a>
+        </table>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-8">
+        <table class="table table-hover table-striped table-bordered table-responsive">
+          <thead class="no-print">
+            <tr>
+              <th>NOTE TITLE</th>
+              <th>NOTE DESCRIPTION</th>
+              <th class="no-print"></th>
+            </tr>
+          </thead>
+        	<tbody>
+        		<tr ng-repeat="note in iCtrl.invoice.notes">
+        			<td editable-text="note.title">{{ note.title || 'Some title' }}</td>
+              <td editable-text="note.description"><i>{{ note.description || 'Description of Note' }}</i></td>
+              <td class="no-print"><a href="" ng-click="iCtrl.removeNote(note)"><i class="remove-line-btn material-icons">remove_circle</i></a></td>
+            </tr>
+        	</tbody>
+          <a class="no-print" href="" ng-click="iCtrl.newNote()"><i class="new-line-btn material-icons info">add_box</i></a>
+        </table>
+      </div>
+      <div class="col-md-4">
+        <table class="table table-hover table-striped table-bordered table-responsive">
+        	<tbody>
+        		<tr>
+        			<td>Labor</td><td>{{ (iCtrl.invoice.laborTotal | number:2) || '-'}}</td>
+            </tr>
+            <tr>
+              <td>Parts</td><td>{{ (iCtrl.invoice.partsTotal | number:2) || '-'}}</td>
+            <tr>
+              <td>Shop Supplies</td><td editable-text="iCtrl.invoice.shopSupplies" onbeforesave="iCtrl.calcTotal($data, line, 'misc')">{{ (iCtrl.invoice.shopSupplies | number:2) || '-' }}</td>
+            </tr>
+            <tr>
+              <td>Hazardous Materials</td><td editable-text="iCtrl.invoice.hazardousMaterials" onbeforesave="iCtrl.calcTotal($data, line, 'misc')">{{ (iCtrl.invoice.hazardousMaterials | number:2) || '-' }}</td>
+            </tr>
+            <tr>
+              <td>Labor Taxes <span class="tax-percent" editable-text="iCtrl.invoice.taxPercent" onbeforesave="iCtrl.calcTotal($data, line, 'misc')">{{ (iCtrl.invoice.taxPercent | number:3) || '6.5' }}</span></td><td>{{ (iCtrl.invoice.laborTaxTotal | number:2) || '9.75' }}</td>
+            </tr>
+            <tr>
+              <td>Parts Taxes <span class="tax-percent" editable-text="iCtrl.invoice.taxPercent" onbeforesave="iCtrl.calcTotal($data, line, 'misc')">{{ (iCtrl.invoice.taxPercent | number:3) || '6.5' }}</span></td><td>{{ (iCtrl.invoice.partsTaxTotal | number:2) || '0.00' }}</td>
+            </tr>
+        	</tbody>
+        </table>
+
+        <button class="calculate-btn btn btn-primary no-print" ng-click="iCtrl.calcTotal(null, null, 'misc')">CALCULATE</button>
+
+        <table class="table table-hover table-striped table-bordered table-responsive">
+        	<tbody>
+        		<tr>
+        			<td><b>Total</b></td><td><b>{{ (iCtrl.invoice.subtotal | currency:'$ ') || '-'}}</b></td>
+            </tr>
+        	</tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

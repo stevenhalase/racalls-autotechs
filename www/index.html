@@ -9,15 +9,20 @@
     <script src="./lib/angular-cookies/angular-cookies.js" charset="utf-8"></script>
     <script src="./lib/bootstrap/dist/js/bootstrap.min.js" charset="utf-8"></script>
     <script src="./lib/unslider/dist/js/unslider-min.js" charset="utf-8"></script>
+    <script src="./lib/angular-xeditable/dist/js/xeditable.min.js" charset="utf-8"></script>
+    <script src="./lib/angular-bootstrap/ui-bootstrap-tpls.min.js" charset="utf-8"></script>
     <link rel="stylesheet" href="./lib/bootstrap/dist/css/bootstrap.min.css" charset="utf-8">
     <link rel="stylesheet" href="./lib/unslider/dist/css/unslider.css" charset="utf-8">
+    <link rel="stylesheet" href="./lib/angular-xeditable/dist/css/xeditable.min.css" charset="utf-8">
     <script src="./app.js" charset="utf-8"></script>
     <script src="./nav/nav-controller.js" charset="utf-8"></script>
     <script src="./footer/footer-controller.js" charset="utf-8"></script>
     <script src="./home/home-controller.js" charset="utf-8"></script>
+    <script src="./invoice/invoice-controller.js" charset="utf-8"></script>
     <link rel="stylesheet" href="./nav/nav.css" charset="utf-8">
     <link rel="stylesheet" href="./home/home.css" charset="utf-8">
     <link rel="stylesheet" href="./footer/footer.css" charset="utf-8">
+    <link rel="stylesheet" href="./invoice/invoice.css" charset="utf-8">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800|Roboto:300,400,500,700" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://file.myfontastic.com/n6vo44Re5QaWo8oCKShBs7/icons.css" rel="stylesheet">
@@ -25,6 +30,7 @@
   <body>
     <div ui-view="nav"></div>
     <div ui-view="home"></div>
+    <div ui-view="invoice"></div>
     <div ui-view="footer"></div>
   </body>
 </html>

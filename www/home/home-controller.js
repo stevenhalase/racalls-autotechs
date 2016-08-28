@@ -1,21 +1,20 @@
 'use strict'
-angular.module('racallsApp')
-  .controller('homeCtrl', homeController);
+app.controller('homeCtrl', homeController);
 
-  homeController.$inject = [];
+homeController.$inject = [];
 
-  function homeController( ) {
-    const hCtrl = this;
-    hCtrl.title = 'Home Controller';
+function homeController( ) {
+  const hCtrl = this;
+  hCtrl.title = 'Home Controller';
 
-    jQuery(document).ready(function($) {
-			$('.home-slider').unslider({
-        animation: 'horizontal',
-        autoplay: true,
-        infinite: true,
-        arrows: false,
-        delay: 5000,
-        speed: 1000
-      });
-		});
-  }
+  jQuery(document).ready(function($) {
+		$('.home-slider').unslider({
+      animation: 'horizontal',
+      autoplay: true,
+      infinite: true,
+      arrows: false,
+      delay: 5000,
+      speed: 1000
+    });
+	});
+}

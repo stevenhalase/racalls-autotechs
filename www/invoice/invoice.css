@@ -1,0 +1,92 @@
+.invoice-head {
+  background-color: #aaa;
+  text-align: center;
+  padding: 10px;
+  color: white;
+  font-family: 'Roboto', sans-serif;
+}
+
+.table {
+  font-family: 'Roboto', sans-serif;
+}
+
+.invoice-meta {
+  font-family: 'Roboto', sans-serif;
+}
+
+.invoice-meta h4 {
+  display: inline-block;
+}
+
+.invoice-meta p {
+  display: inline-block;
+  margin-left: 10px;
+  border: 1px solid #ccc;
+  padding: 5px;
+  min-width: 50px;
+}
+
+.customer-info>div {
+  text-align: center;
+  padding-left: 10px;
+}
+
+.customer-info>div>h6 {
+}
+
+.invoice-company {
+  text-align: right;
+  font-family: 'Roboto', sans-serif;
+}
+
+.invoice-company img {
+  width: 200px;
+  margin-top: 120px;
+}
+
+.invoice-company>h5:nth-child(4),
+.invoice-company>h5:nth-child(5),
+.invoice-company>h5:nth-child(6) {
+  display: inline-block;
+}
+
+.invoice-company>h5:nth-child(3) {
+  margin: 0px;
+}
+
+.new-line-btn {
+  color: #3498db;
+}
+
+.remove-line-btn {
+  color: #e74c3c;
+}
+
+.tax-percent {
+  display: inline-block;
+  margin-left: 10px;
+  border: 1px solid #ccc;
+  padding: 5px;
+  min-width: 50px;
+}
+
+.calculate-btn {
+  width: 100%;
+  border-radius: 0px;
+  margin-bottom: 15px;
+}
+
+@media print {
+
+  .customer-info p {
+    border: none;
+  }
+
+  .invoice-meta p {
+    border: none;
+  }
+
+  .no-print {
+    display: none;
+  }
+}
